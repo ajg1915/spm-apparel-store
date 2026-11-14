@@ -41,7 +41,7 @@ export default function InstallApp() {
     <div className="install">
       <img src="/icon-192.png" alt="" width="44" height="44" />
       <div className="txt">
-        <b>Get the SPM Apparel app</b>
+        <b>Get the SPM Shop app</b>
         {ios ? <small>Tap <span className="share">Share ⬆</span> then “Add to Home Screen”</small> : <small>Faster shopping, right from your home screen</small>}
       </div>
       {!ios && <button className="btn" onClick={install}>Install</button>}

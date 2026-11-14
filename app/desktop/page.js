@@ -6,13 +6,14 @@ export const metadata = { title: "SPM Apparel — Shop on your phone", robots: {
 const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.spmapparels.store";
 
 export default async function Desktop() {
-  const svg = await QRCode.toString(SITE, { type: "svg", margin: 1, color: { dark: "#0b1f44", light: "#ffffff" } });
+  const svg = await QRCode.toString(SITE, { type: "svg", margin: 1, color: { dark: "#0a3161", light: "#ffffff" } });
   return (
     <div className="gate">
       <TouchCheck />
       <div className="gate-card">
         <div>
-          <div className="logo" style={{ fontSize: 28 }}><span>SPM</span>APPAREL</div>
+          <img src="/spm-logo.png" alt="SPM Shop" className="gate-logo" />
+          <p className="tagline">“Where Americans Go”</p>
           <h1>Our store lives<br />on your phone.</h1>
           <p>SPM Apparel is built for mobile. Scan the code with your phone's camera to shop tees, hoodies, hats, gloves, jackets and custom prints.</p>
           <p className="url">spmapparels.store</p>

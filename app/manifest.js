@@ -1,14 +1,14 @@
 export default function manifest() {
   return {
-    name: "SPM Apparel",
-    short_name: "SPM Apparel",
+    name: "SPM Shop — Where Americans Go",
+    short_name: "SPM Shop — Where Americans Go",
     description: "Sports tees, hoodies, hats, gloves, jackets and custom prints.",
     start_url: "/",
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#0b1f44",
-    theme_color: "#0b1f44",
+    background_color: "#0a3161",
+    theme_color: "#0a3161",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png" },
       { src: "/icon-512.png", sizes: "512x512", type: "image/png" },

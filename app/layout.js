@@ -9,7 +9,7 @@ export const metadata = {
   icons: { icon: "/icon-192.png", apple: "/apple-icon.png" },
 };
 
-export const viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0b1f44" };
+export const viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0a3161" };
 
 export default function RootLayout({ children }) {
   return (
