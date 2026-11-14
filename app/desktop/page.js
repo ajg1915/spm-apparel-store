@@ -3,7 +3,7 @@ import TouchCheck from "./TouchCheck";
 
 export const metadata = { title: "SPM Apparel — Shop on your phone", robots: { index: false } };
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://spmapparels.store";
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || "https://www.spmapparels.store";
 
 export default async function Desktop() {
   const svg = await QRCode.toString(SITE, { type: "svg", margin: 1, color: { dark: "#0b1f44", light: "#ffffff" } });
