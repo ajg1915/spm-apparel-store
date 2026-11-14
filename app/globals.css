@@ -1,0 +1,88 @@
+:root {
+  --navy: #0b1f44; --red: #c8102e; --ink: #0f172a; --muted: #64748b;
+  --bg: #f4f5f7; --card: #fff; --line: #e5e7eb; --r: 16px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+
+.page { max-width: 640px; margin: 0 auto; padding: 0 16px calc(96px + env(safe-area-inset-bottom)); }
+.topbar { position: sticky; top: 0; z-index: 10; background: var(--navy); color: #fff; padding: calc(12px + env(safe-area-inset-top)) 16px 12px; display: flex; align-items: center; justify-content: space-between; }
+.logo { font-weight: 900; letter-spacing: .5px; font-size: 20px; }
+.logo span { color: var(--red); background: #fff; padding: 0 6px; border-radius: 6px; margin-right: 4px; }
+.back { font-size: 15px; opacity: .9; }
+
+.hero { margin: 16px 0; border-radius: var(--r); padding: 24px 20px; color: #fff; background: linear-gradient(135deg, var(--navy) 0%, #1e3a8a 60%, var(--red) 140%); }
+.hero h1 { margin: 0 0 6px; font-size: 28px; line-height: 1.1; }
+.hero p { margin: 0 0 16px; opacity: .85; }
+.btn { display: inline-block; border: 0; border-radius: 999px; padding: 14px 22px; font-weight: 700; background: var(--red); color: #fff; text-align: center; }
+.btn.light { background: #fff; color: var(--navy); }
+.btn.block { display: block; width: 100%; }
+.btn:disabled { opacity: .5; }
+
+h2 { font-size: 18px; margin: 24px 0 12px; }
+.chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.chip { flex: 0 0 auto; padding: 10px 16px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); font-weight: 600; font-size: 14px; }
+.chip.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+.cats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.cat { background: var(--card); border-radius: 14px; padding: 10px 4px; text-align: center; font-size: 12px; font-weight: 600; }
+.cat svg { display: block; margin: 0 auto 4px; }
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.card { background: var(--card); border-radius: var(--r); overflow: hidden; }
+.card .img { background: #eef1f6; display: flex; justify-content: center; padding: 12px 0; }
+.card .meta { padding: 10px 12px 14px; }
+.card .name { font-weight: 600; font-size: 14px; }
+.card .price { color: var(--red); font-weight: 800; margin-top: 4px; }
+
+.pd-img { background: #eef1f6; border-radius: var(--r); display: flex; justify-content: center; padding: 20px 0; margin-top: 16px; }
+.pd h1 { font-size: 22px; margin: 16px 0 4px; }
+.pd .price { font-size: 22px; font-weight: 800; color: var(--red); }
+.label { font-weight: 700; font-size: 14px; margin: 18px 0 8px; }
+.swatches { display: flex; gap: 10px; }
+.swatch { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line); }
+.swatch.on { outline: 3px solid var(--navy); outline-offset: 2px; }
+.sizes { display: flex; flex-wrap: wrap; gap: 8px; }
+.size { min-width: 52px; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--card); font-weight: 600; }
+.size.on { background: var(--navy); color: #fff; border-color: var(--navy); }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+.qty button { width: 44px; height: 44px; border: 0; background: none; font-size: 20px; }
+.qty span { min-width: 28px; text-align: center; font-weight: 700; }
+.sticky-cta { position: fixed; left: 0; right: 0; bottom: calc(64px + env(safe-area-inset-bottom)); padding: 12px 16px; background: linear-gradient(transparent, var(--bg) 30%); }
+.sticky-cta > * { max-width: 608px; margin: 0 auto; }
+
+.line { display: flex; gap: 12px; align-items: center; background: var(--card); border-radius: var(--r); padding: 10px; margin-bottom: 10px; }
+.line .info { flex: 1; font-size: 14px; }
+.line .info b { display: block; }
+.line .info small { color: var(--muted); }
+.totals { background: var(--card); border-radius: var(--r); padding: 16px; margin: 16px 0; display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; }
+.empty { text-align: center; color: var(--muted); padding: 48px 0; }
+.note { font-size: 13px; color: var(--muted); }
+
+form .field { margin-bottom: 14px; }
+form label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+form input, form select, form textarea { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--line); font-size: 16px; background: #fff; }
+form textarea { min-height: 110px; }
+
+.steps { display: grid; gap: 10px; margin-bottom: 8px; }
+.step { background: var(--card); border-radius: 14px; padding: 12px 14px; display: flex; gap: 12px; align-items: center; font-size: 14px; }
+.step b { background: var(--red); color: #fff; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; }
+
+.bottomnav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: #fff; border-top: 1px solid var(--line); display: flex; padding-bottom: env(safe-area-inset-bottom); }
+.bottomnav a { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 10px; font-size: 11px; font-weight: 600; color: var(--muted); }
+.bottomnav a.active { color: var(--red); }
+.bottomnav .ico { position: relative; }
+.badge { position: absolute; top: -6px; right: -10px; background: var(--red); color: #fff; font-size: 10px; border-radius: 999px; padding: 1px 6px; }
+
+/* Desktop gate page */
+.gate { min-height: 100vh; display: grid; place-items: center; background: radial-gradient(circle at 30% 20%, #1e3a8a, var(--navy) 60%); color: #fff; padding: 32px; }
+.gate-card { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; max-width: 860px; }
+.gate h1 { font-size: 44px; line-height: 1.05; margin: 16px 0 12px; }
+.gate p { font-size: 18px; opacity: .85; max-width: 420px; }
+.gate .qr { background: #fff; border-radius: 24px; padding: 20px; text-align: center; color: var(--navy); font-weight: 700; }
+.gate .qr svg { width: 240px; height: 240px; display: block; }
+.gate .url { margin-top: 18px; font-weight: 700; letter-spacing: .5px; opacity: 1; }
+@media (max-width: 720px) { .gate-card { grid-template-columns: 1fr; text-align: center; } .gate p { margin: 0 auto; } }
+.pd { padding-bottom: 90px; }
