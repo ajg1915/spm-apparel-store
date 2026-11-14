@@ -86,3 +86,15 @@ form textarea { min-height: 110px; }
 .gate .url { margin-top: 18px; font-weight: 700; letter-spacing: .5px; opacity: 1; }
 @media (max-width: 720px) { .gate-card { grid-template-columns: 1fr; text-align: center; } .gate p { margin: 0 auto; } }
 .pd { padding-bottom: 90px; }
+
+/* Install-the-app banner */
+.install { position: fixed; left: 12px; right: 12px; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 30; background: #fff; border-radius: 16px; box-shadow: 0 8px 30px rgba(11,31,68,.25); display: flex; align-items: center; gap: 10px; padding: 10px 12px; max-width: 616px; margin: 0 auto; }
+.install img { border-radius: 10px; }
+.install .txt { flex: 1; font-size: 14px; }
+.install .txt b { display: block; }
+.install .txt small { color: var(--muted); }
+.install .share { font-weight: 700; color: var(--navy); }
+.install .btn { padding: 10px 16px; }
+.install .x { border: 0; background: none; font-size: 22px; color: var(--muted); padding: 4px 6px; }
+/* Space under the phone's status bar when opened as an installed app */
+@media (display-mode: standalone) { .topbar { padding-top: calc(16px + env(safe-area-inset-top)); } }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BottomNav from "./BottomNav";
+import InstallApp from "./InstallApp";
 
 export default function Shell({ children, back }) {
   return (
@@ -9,6 +10,7 @@ export default function Shell({ children, back }) {
         {back && <Link href={back} className="back">‹ Back</Link>}
       </header>
       <main className="page">{children}</main>
+      <InstallApp />
       <BottomNav />
     </>
   );
