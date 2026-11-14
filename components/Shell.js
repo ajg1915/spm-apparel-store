@@ -5,7 +5,7 @@ import InstallApp from "./InstallApp";
 export default function Shell({ children, back }) {
   return (
     <>
-      <div className="promo"><span>★</span> Printed in-house on Staten Island <span>★</span></div>
+      <div className="promo"><span>★</span> Printed in the United States <span>★</span></div>
       <header className="topbar">
         <div className="topbar-row">
           {back ? <Link href={back} className="back">‹</Link> : null}
