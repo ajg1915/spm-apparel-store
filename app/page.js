@@ -21,8 +21,9 @@ export default function Home() {
 
       {/* Main banner */}
       <section className="hero-flag">
-        <img src="/spm-wallpaper.jpg" alt="SPM Shop — Where Americans Go" className="hero-img" />
-        <div className="hero-bar">
+        <div className="hero-inner">
+          <img src="/spm-logo.png" alt="SPM Shop" className="hero-logo" />
+          <p className="tag">“Where Americans Go”</p>
           <p className="sub">Sports apparel & custom prints made right here in the USA</p>
           <div className="banner-btns">
             <Link href="/shop" className="btn white">Shop now</Link>
