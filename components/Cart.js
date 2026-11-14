@@ -10,10 +10,10 @@ export function CartProvider({ children }) {
   }, []);
   const save = (next) => {
     setItems(next);
-    try { localStorage.setItem("spm_cart", JSON.stringify(next)); } catch {}
+    try { localStorage.setItem("spm_cart", JSON.stringify(next)); } catch { try { localStorage.setItem("spm_cart", JSON.stringify(next.map((i) => (i.design ? { ...i, design: { ...i.design, art: null } } : i)))); } catch {} }
   };
   const add = (item) => {
-    const key = `${item.id}|${item.size}|${item.color}`;
+    const key = item.custom ? `custom|${item.uid}` : `${item.id}|${item.size}|${item.color}`;
     const found = items.find((i) => i.key === key);
     save(found ? items.map((i) => (i.key === key ? { ...i, qty: i.qty + item.qty } : i)) : [...items, { ...item, key }]);
   };

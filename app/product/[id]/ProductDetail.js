@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ProductArt from "@/components/ProductArt";
 import { useCart } from "@/components/Cart";
-import { money } from "@/lib/products";
+import Link from "next/link";
+import { money, colorName } from "@/lib/products";
 
 export default function ProductDetail({ p }) {
   const [color, setColor] = useState(p.colors[0]);
@@ -13,7 +14,7 @@ export default function ProductDetail({ p }) {
   const router = useRouter();
 
   const addToCart = () => {
-    add({ id: p.id, name: p.name, cat: p.cat, price: p.price, color, size, qty });
+    add({ id: p.id, name: p.name, cat: p.cat, price: p.price, color, colorLabel: colorName(p, color), size, qty });
     router.push("/cart");
   };
 
@@ -23,11 +24,12 @@ export default function ProductDetail({ p }) {
       <h1>{p.name}</h1>
       <div className="price">{money(p.price)}</div>
       <p className="note">{p.desc}</p>
+      <Link href={`/design?p=${p.id}&c=${encodeURIComponent(color)}`} className="btn ghost block customize">★ Customize with your logo or text</Link>
 
-      <div className="label">Color</div>
+      <div className="label">Color: {colorName(p, color)}</div>
       <div className="swatches">
         {p.colors.map((c) => (
-          <button key={c} aria-label={`Color ${c}`} className={`swatch ${c === color ? "on" : ""}`} style={{ background: c }} onClick={() => setColor(c)} />
+          <button key={c} aria-label={colorName(p, c)} className={`swatch ${c === color ? "on" : ""}`} style={{ background: c }} onClick={() => setColor(c)} />
         ))}
       </div>
 

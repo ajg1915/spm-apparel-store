@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 // Registers the app's service worker and shows an "Install the app" banner.
 export default function InstallApp() {
+  const path = usePathname();
   const [prompt, setPrompt] = useState(null);
   const [ios, setIos] = useState(false);
   const [show, setShow] = useState(false);
@@ -36,7 +38,8 @@ export default function InstallApp() {
     setShow(false);
   };
 
-  if (!show) return null;
+  // Only on browse pages, so it never covers checkout or "Add to cart" buttons.
+  if (!show || !(path === "/" || path.startsWith("/shop"))) return null;
   return (
     <div className="install">
       <img src="/icon-192.png" alt="" width="44" height="44" />

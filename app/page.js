@@ -6,7 +6,7 @@ import { CATEGORIES, PRODUCTS, money } from "@/lib/products";
 const startingAt = (cat) => Math.min(...PRODUCTS.filter((p) => p.cat === cat).map((p) => p.price));
 
 export default function Home() {
-  const popular = ["classic-tee", "pullover-hoodie", "snapback", "dugout-jacket", "batting-gloves", "varsity-jacket"].map((id) => PRODUCTS.find((p) => p.id === id));
+  const popular = ["heavy-cotton-tee", "pullover-hoodie", "trucker-hat", "coach-jacket", "knit-gloves", "satin-baseball-jacket"].map((id) => PRODUCTS.find((p) => p.id === id));
   return (
     <Shell>
       {/* Category row */}
@@ -27,7 +27,7 @@ export default function Home() {
           <p className="sub">Sports apparel & custom prints made right here in the USA</p>
           <div className="banner-btns">
             <Link href="/shop" className="btn white">Shop now</Link>
-            <Link href="/custom" className="btn">Design yours</Link>
+            <Link href="/design" className="btn">Design yours</Link>
           </div>
         </div>
       </section>
@@ -52,7 +52,7 @@ export default function Home() {
             <div className="meta">
               <Link href={`/product/${p.id}`} className="name">{p.name}</Link>
               <div className="from">Starting at <b>{money(p.price)}</b></div>
-              <Link href="/custom" className="design-link">Design yours ›</Link>
+              <Link href={`/design?p=${p.id}`} className="design-link">Design yours ›</Link>
             </div>
           </div>
         ))}

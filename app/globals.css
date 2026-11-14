@@ -203,3 +203,35 @@ form label { color: #fff; }
 .hero-flag .sub { color: #fff; }
 
 .gate { background: linear-gradient(rgba(10,8,6,.45), rgba(10,8,6,.7)), url(/spm-flag.jpg) center/cover; }
+
+/* ===== Design studio ===== */
+.studio h2 { margin-top: 18px; }
+.stage-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin: 14px 0; }
+.stage { position: relative; background: #eef1f6; border-radius: var(--r); box-shadow: 0 6px 18px rgba(0,0,0,.35); touch-action: none; user-select: none; }
+.stage svg { display: block; }
+.print-area { position: absolute; border: 1.5px dashed rgba(255,255,255,.55); border-radius: 6px; }
+.area-hint { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; color: rgba(255,255,255,.75); font-weight: 600; }
+.layer { position: absolute; transform: translate(-50%, -50%); cursor: grab; }
+.txt-layer { white-space: nowrap; overflow: hidden; text-overflow: clip; line-height: 1; text-align: center; }
+.seg { display: inline-flex; background: rgba(255,255,255,.92); border-radius: 999px; padding: 3px; }
+.seg button { border: 0; background: none; padding: 8px 18px; border-radius: 999px; font-weight: 700; color: var(--navy); }
+.seg button.on { background: var(--navy); color: #fff; }
+.panel { background: #fff; border-radius: var(--r); padding: 4px 16px 18px; box-shadow: 0 4px 14px rgba(0,0,0,.35); margin-bottom: 80px; }
+.panel .label { color: var(--ink); text-shadow: none; }
+.upload { display: block; border: 2px dashed var(--navy); border-radius: 12px; padding: 16px; text-align: center; font-weight: 700; color: var(--navy); background: #f5f7fb; }
+.upload input { display: none; }
+.row { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; font-size: 14px; font-weight: 600; }
+.row input[type=range] { flex: 1; accent-color: var(--red); }
+.link { border: 0; background: none; color: var(--red); font-weight: 700; }
+.text-in { width: 100%; padding: 13px; border-radius: 12px; border: 1px solid var(--line); font-size: 16px; }
+.swatch.sm { width: 30px; height: 30px; }
+.tip { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
+.err { color: var(--red); font-weight: 700; font-size: 14px; }
+.customize { margin-top: 12px; }
+.line img.design-thumb { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; }
+.line .info .tag-custom { display: inline-block; font-size: 11px; font-weight: 800; color: #fff; background: var(--red); border-radius: 6px; padding: 1px 6px; margin-top: 2px; }
+
+.thanks { background: #fff; border-radius: var(--r); padding: 24px 18px; margin-top: 18px; text-align: center; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.thanks h2 { color: var(--navy) !important; text-shadow: none !important; margin-top: 0; }
+.paypal-box { background: #fff; border-radius: var(--r); padding: 14px; margin-bottom: 90px; }
+.pd .price { color: #fff; background: var(--red); display: inline-block; padding: 2px 10px; border-radius: 8px; }

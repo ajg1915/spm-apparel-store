@@ -13,7 +13,7 @@ export default function BottomNav() {
   const tabs = [
     { href: "/", label: "Home", d: "M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" },
     { href: "/shop", label: "Shop", d: "M4 7h16l-1.5 12a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2zM9 7a3 3 0 0 1 6 0" },
-    { href: "/custom", label: "Custom", d: "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" },
+    { href: "/design", label: "Design", d: "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" },
     { href: "/cart", label: "Cart", d: "M6 6h15l-2 9H8zM6 6L5 3H2M9 20a1 1 0 1 0 0-.01M18 20a1 1 0 1 0 0-.01" },
   ];
   return (
