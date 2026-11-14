@@ -1,5 +1,5 @@
 // SPM Apparel app service worker: lets the app open fast and show the last-seen pages offline.
-const CACHE = "spm-v2";
+const CACHE = "spm-v3";
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(["/", "/shop", "/custom", "/cart"])).then(() => self.skipWaiting()));
@@ -16,7 +16,6 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
   // When online, let the browser load pages itself so the phone/computer check always sees the real device.
   if (self.navigator.onLine) {
-    if (req.mode !== "navigate") e.waitUntil(fetch(req).then((res) => caches.open(CACHE).then((c) => c.put(req, res))).catch(() => {}));
     return;
   }
   // Network first, fall back to cache when offline.
