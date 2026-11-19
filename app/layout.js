@@ -2,8 +2,8 @@ import "./globals.css";
 import { CartProvider } from "@/components/Cart";
 
 export const metadata = {
-  title: "SPM Apparel — Sports Tees, Hoodies, Hats & Custom Prints",
-  description: "Shop sports tees, hoodies, hats, gloves and jackets, or get custom apparel printed in the United States.",
+  title: "SPM Apparels — Custom Printing: Apparel, DTF Transfers, Cards, Banners & More",
+  description: "Custom print shop: apparel, DTF transfers, business cards, flyers, banners, stickers, promo products and invitations, printed in the USA.",
   applicationName: "SPM Apparel",
   appleWebApp: { capable: true, title: "SPM Apparel", statusBarStyle: "black-translucent" },
   icons: { icon: "/icon-192.png", apple: "/apple-icon.png" },
