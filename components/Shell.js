@@ -10,6 +10,12 @@ export default function Shell({ children, back }) {
         <div className="topbar-row">
           {back ? <Link href={back} className="back">‹</Link> : null}
           <Link href="/" className="logo"><img src="/spm-logo.png" alt="SPM Shop" /><small>Where Americans Go</small></Link>
+          <nav className="desk-nav" aria-label="Main">
+            <Link href="/shop">Shop</Link>
+            <Link href="/design">Design</Link>
+            <Link href="/custom">Get a quote</Link>
+            <Link href="/cart">Cart</Link>
+          </nav>
           <Link href="/custom" className="topbar-cta">Get a quote</Link>
         </div>
         <form action="/shop" className="search">
