@@ -71,7 +71,7 @@ export default function Home() {
       <div className="ps-steps">
         <div><b>1</b><span><strong>Pick your product</strong>Apparel, transfers, cards, signs and more.</span></div>
         <div><b>2</b><span><strong>Upload your design</strong>Send your artwork or logo. We check it before printing.</span></div>
-        <div><b>3</b><span><strong>We print &amp; you pick up or ship</strong>Made in-house on Staten Island.</span></div>
+        <div><b>3</b><span><strong>We print &amp; you pick up or ship</strong>Made in-house at the Staten Island Mall.</span></div>
       </div>
 
       {/* Why SPM */}
@@ -92,7 +92,7 @@ export default function Home() {
           <Link href="/custom">Get a quote</Link>
           <Link href="/cart">Cart</Link>
         </nav>
-        <small>Staten Island, NY · Printed in the USA</small>
+        <small>Staten Island Mall · Printed in the USA</small>
       </footer>
     </Shell>
   );
