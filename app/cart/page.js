@@ -69,7 +69,7 @@ export default function Cart() {
     <Shell>
       <div className="thanks">
         <h2>Thank you! 🇺🇸</h2>
-        <p>Your order <b>{paidId}</b> is in. PayPal will email your receipt.</p>
+        <p>Your order <b>{paidId}</b> is in. PayPal will email your receipt from MetsXMFanZone.com, our checkout sponsor.</p>
         <p>We'll print your gear and reach out if we have any questions about your design.</p>
         <Link href="/shop" className="btn">Keep shopping</Link>
       </div>
@@ -100,6 +100,10 @@ export default function Cart() {
           <div className="totals"><span>Total</span><span>{money(total)}</span></div>
           {hasCustom && <p className="note">Custom items are printed to order. We'll contact you if your artwork needs a tweak before printing.</p>}
           {error && <p className="err">{error}</p>}
+          <div className="sponsor-note">
+            <b>Checkout sponsored by MetsXMFanZone.com</b>
+            <span>Your payment is processed securely through PayPal by our partner MetsXMFanZone.com, so you&apos;ll see that name on your PayPal receipt. Your order is made and shipped by SPM Apparels.</span>
+          </div>
           <PayPalButtons items={items} onPaid={(id) => { clear(); setPaidId(id); }} onError={setError} />
         </>
       )}

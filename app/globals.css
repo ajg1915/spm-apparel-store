@@ -293,3 +293,8 @@ form label { color: #fff; }
 .ps-foot nav { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 12px 0; }
 .ps-foot nav a { color: #fff; font-weight: 700; font-size: 14px; min-height: 44px; display: grid; place-items: center; }
 .ps-foot small { font-size: 12px; opacity: .8; }
+
+/* Checkout sponsor notice */
+.sponsor-note { background: #fff; border-radius: var(--r); border-left: 0; border-top: 4px solid var(--navy); padding: 12px 14px; margin: 0 0 12px; box-shadow: 0 4px 14px rgba(0,0,0,.35); }
+.sponsor-note b { display: block; color: var(--navy); font-size: 14px; margin-bottom: 4px; }
+.sponsor-note span { display: block; color: var(--muted); font-size: 13px; line-height: 1.45; }
