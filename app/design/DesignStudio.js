@@ -44,9 +44,15 @@ export default function DesignStudio() {
   const [color, setColor] = useState(params.get("c") && start.colors.includes(params.get("c")) ? params.get("c") : start.colors[0]);
   const [size, setSize] = useState(start.sizes.length === 1 ? start.sizes[0] : "");
   const [qty, setQty] = useState(1);
-  const [placement, setPlacement] = useState("Front");
-  const [art, setArt] = useState(null); // {src, ratio, x, y, w}
-  const [text, setText] = useState({ value: "", color: "#ffffff", font: "block", x: 0.5, y: 0.8, size: 0.16 });
+  // Front and back each keep their own artwork and text.
+  const [side, setSide] = useState("Front");
+  const blankText = { value: "", color: "#ffffff", font: "block", x: 0.5, y: 0.8, size: 0.16 };
+  const [sides, setSides] = useState({ Front: { art: null, text: blankText }, Back: { art: null, text: { ...blankText, y: 0.5 } } });
+  const art = sides[side].art; // {src, ratio, x, y, w}
+  const text = sides[side].text;
+  const setArt = (v) => setSides((all) => ({ ...all, [side]: { ...all[side], art: typeof v === "function" ? v(all[side].art) : v } }));
+  const setText = (v) => setSides((all) => ({ ...all, [side]: { ...all[side], text: typeof v === "function" ? v(all[side].text) : v } }));
+  const hasDesign = (sd) => !!(sides[sd].art || sides[sd].text.value.trim());
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const stage = useRef(null);
@@ -63,7 +69,8 @@ export default function DesignStudio() {
   useEffect(() => {
     // pick a readable default text color for the shirt
     const light = ["#ffffff", "#e7e2d6", "#c8b98f", "#9ca3af"].includes(color);
-    setText((t) => ({ ...t, color: light ? "#0a3161" : "#ffffff" }));
+    const c = light ? "#0a3161" : "#ffffff";
+    setSides((all) => ({ Front: { ...all.Front, text: { ...all.Front.text, color: c } }, Back: { ...all.Back, text: { ...all.Back.text, color: c } } }));
   }, [color]);
 
   const onUpload = async (e) => {
@@ -73,6 +80,7 @@ export default function DesignStudio() {
     setErr("");
     const { src, ratio } = await shrink(f);
     setArt({ src, ratio, x: 0.5, y: 0.4, w: 0.8 });
+    e.target.value = ""; // lets the same file be picked again for the other side
   };
 
   // Drag inside the print area. Positions are stored as 0..1 of the area.
@@ -92,7 +100,8 @@ export default function DesignStudio() {
   const endDrag = () => { drag.current = null; };
 
   // Render the finished mockup to a small image for the cart and order email.
-  const renderPreview = async () => {
+  const renderPreview = async (sd) => {
+    const { art, text } = sides[sd];
     const svg = stage.current.querySelector("svg");
     const xml = new XMLSerializer().serializeToString(svg);
     const base = await loadImage("data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml));
@@ -112,19 +121,27 @@ export default function DesignStudio() {
       g.fillStyle = text.color; g.textAlign = "center"; g.textBaseline = "middle";
       g.fillText(text.value, (box.left + text.x * box.width) * k, (box.top + text.y * box.height) * k, box.width * k);
     }
+    g.fillStyle = "#0a3161"; g.font = "800 22px system-ui, sans-serif"; g.textAlign = "left"; g.textBaseline = "top";
+    g.fillText(sd.toUpperCase(), 14, 12);
     return c.toDataURL("image/jpeg", 0.8);
   };
 
   const addToCart = async () => {
     if (!size) return setErr("Pick a size first.");
-    if (!art && !text.value.trim()) return setErr("Upload a logo or type some text first.");
+    const used = ["Front", "Back"].filter(hasDesign);
+    if (!used.length) return setErr("Upload a logo or type some text on the front or back first.");
     setBusy(true); setErr("");
     try {
-      const preview = await renderPreview();
+      const saved = {};
+      for (const sd of used) {
+        const { art, text } = sides[sd];
+        saved[sd.toLowerCase()] = { preview: await renderPreview(sd), art: art?.src || null, text: text.value.trim() || null, font: text.font, textColor: text.color };
+      }
+      const first = saved[used[0].toLowerCase()];
       add({
         id: p.id, name: p.name, cat: p.cat, price: p.price, color, colorLabel: colorName(p, color), size, qty,
         custom: true, uid: Date.now().toString(36),
-        design: { preview, art: art?.src || null, text: text.value.trim() || null, font: text.font, textColor: text.color, placement },
+        design: { ...first, front: saved.front || null, back: saved.back || null, placement: used.join(" & ") },
       });
       router.push("/cart");
     } catch {
@@ -148,6 +165,7 @@ export default function DesignStudio() {
       <div className="stage-wrap">
         <div className="stage" ref={stage} style={{ width: VIEW, height: VIEW }} onPointerMove={onMove} onPointerUp={endDrag} onPointerLeave={endDrag}>
           <ProductArt cat={p.cat} color={color} size={VIEW} plain />
+          <span className="side-tag">{side}</span>
           <div className="print-area" style={box}>
             {art && (
               <img src={art.src} alt="Your logo" draggable={false} onPointerDown={startDrag("art")}
@@ -164,13 +182,16 @@ export default function DesignStudio() {
         </div>
         <div className="seg">
           {["Front", "Back"].map((pl) => (
-            <button key={pl} className={placement === pl ? "on" : ""} onClick={() => setPlacement(pl)}>{pl}</button>
+            <button key={pl} className={side === pl ? "on" : ""} onClick={() => setSide(pl)}>
+              {pl}{hasDesign(pl) ? " ✓" : ""}
+            </button>
           ))}
         </div>
       </div>
 
       <div className="panel">
-        <div className="label">1. Your logo or artwork</div>
+        <p className="tip">Designing the <b>{side.toLowerCase()}</b>. Switch to {side === "Front" ? "Back" : "Front"} above to add a different image there.</p>
+        <div className="label">1. {side} logo or artwork</div>
         <label className="upload">
           <input type="file" accept="image/png,image/jpeg,image/webp" onChange={onUpload} />
           {art ? "Change image" : "Upload image (PNG with clear background works best)"}
@@ -183,7 +204,7 @@ export default function DesignStudio() {
           </div>
         )}
 
-        <div className="label">2. Add text (optional)</div>
+        <div className="label">2. {side} text (optional)</div>
         <input className="text-in" maxLength={28} placeholder="Team name, number, slogan…" value={text.value} onChange={(e) => setText({ ...text, value: e.target.value })} />
         {text.value && (
           <>

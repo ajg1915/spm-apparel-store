@@ -85,7 +85,11 @@ export default function Cart() {
         <>
           {items.map((i) => (
             <div key={i.key} className="line">
-              {i.design?.preview ? <img src={i.design.preview} alt="" className="design-thumb" /> : <ProductArt cat={i.cat} color={i.color} size={64} />}
+              {i.design?.preview ? (
+                <span className="design-thumbs">
+                  {(i.design.front || i.design.back ? [i.design.front, i.design.back].filter(Boolean) : [i.design]).map((d, k) => <img key={k} src={d.preview} alt="" className="design-thumb" />)}
+                </span>
+              ) : <ProductArt cat={i.cat} color={i.color} size={64} />}
               <div className="info">
                 <b>{i.name}</b>
                 <small>{i.colorLabel ? `${i.colorLabel} · ` : ""}Size {i.size}{i.design ? ` · ${i.design.placement}` : ""}</small>

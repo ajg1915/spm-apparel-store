@@ -358,3 +358,9 @@ form label { color: #fff; }
   .line, .totals, .sponsor-note, .paypal-box, .thanks { max-width: 760px; }
   .page form:not(.search) { max-width: 760px; }
 }
+
+/* Front/back design studio */
+.stage { position: relative; }
+.side-tag { position: absolute; top: 8px; left: 10px; font-size: 12px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--navy); background: #fff; border-radius: 999px; padding: 3px 10px; box-shadow: 0 1px 4px rgba(0,0,0,.2); pointer-events: none; }
+.design-thumbs { display: inline-flex; gap: 4px; }
+.line .design-thumbs img.design-thumb { width: 48px; height: 48px; }

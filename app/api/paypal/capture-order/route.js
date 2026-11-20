@@ -15,9 +15,15 @@ async function emailOrder(capture, items) {
   const attachments = [];
   const rows = items.map((i, n) => {
     const d = i.design || {};
-    if (d.preview?.startsWith("data:image/")) attachments.push({ filename: `item${n + 1}-mockup.jpg`, content: d.preview.split(",")[1] });
-    if (d.art?.startsWith("data:image/")) attachments.push({ filename: `item${n + 1}-artwork.png`, content: d.art.split(",")[1] });
-    return `<tr><td>${esc(lines[n].quantity)} × ${esc(lines[n].name)}</td><td>${esc(lines[n].description)}</td><td>${d.text ? `Text: “${esc(d.text)}”` : ""}${d.art ? " + logo (attached)" : ""}</td></tr>`;
+    const parts = d.front || d.back ? [["front", d.front], ["back", d.back]].filter(([, x]) => x) : [["", d]];
+    const notes = parts.map(([sd, x]) => {
+      const tag = sd ? `-${sd}` : "";
+      if (x.preview?.startsWith("data:image/")) attachments.push({ filename: `item${n + 1}${tag}-mockup.jpg`, content: x.preview.split(",")[1] });
+      if (x.art?.startsWith("data:image/")) attachments.push({ filename: `item${n + 1}${tag}-artwork.png`, content: x.art.split(",")[1] });
+      const what = [x.text ? `Text: “${esc(x.text)}”` : "", x.art ? "logo (attached)" : ""].filter(Boolean).join(" + ");
+      return sd ? `<b>${sd[0].toUpperCase() + sd.slice(1)}:</b> ${what}` : what;
+    }).join("<br>");
+    return `<tr><td>${esc(lines[n].quantity)} × ${esc(lines[n].name)}</td><td>${esc(lines[n].description)}</td><td>${notes}</td></tr>`;
   }).join("");
   const html = `<h2>New SPM Shop order</h2>
     <p><b>PayPal order:</b> ${esc(capture.id)}<br><b>Paid:</b> $${esc(paid)}<br>
