@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Shell from "@/components/Shell";
-import ProductDetail from "./ProductDetail";
+import { Suspense } from "react";
+import DesignStudio from "@/app/design/DesignStudio";
 import { PRODUCTS, getProduct } from "@/lib/products";
 
 export function generateStaticParams() {
@@ -13,7 +14,9 @@ export default async function Page({ params }) {
   if (!p) notFound();
   return (
     <Shell back={`/shop?cat=${p.cat}`}>
-      <ProductDetail p={p} />
+      <Suspense fallback={<p className="empty">Loading…</p>}>
+        <DesignStudio product={p} />
+      </Suspense>
     </Shell>
   );
 }

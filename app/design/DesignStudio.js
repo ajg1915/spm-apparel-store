@@ -18,6 +18,8 @@ const FONTS = [
   { id: "script", label: "Script", css: "italic 700 1em Georgia, serif" },
   { id: "varsity", label: "Varsity", css: "800 1em 'Arial Black', Impact, sans-serif" },
 ];
+// Which sides can be printed for each item type.
+const SIDES = { tees: ["Front", "Back"], hoodies: ["Front", "Back"], jackets: ["Front", "Back"], hats: ["Front", "Back"], gloves: ["Front"] };
 const VIEW = 300; // on-screen mockup size in px
 const S = VIEW / 160;
 
@@ -35,11 +37,13 @@ async function shrink(file, max = 1200) {
   return { src: c.toDataURL("image/png"), ratio: img.height / img.width };
 }
 
-export default function DesignStudio() {
+// `product` set = embedded on that product's own page (no product switcher, design optional).
+export default function DesignStudio({ product = null }) {
   const params = useSearchParams();
   const router = useRouter();
   const { add } = useCart();
-  const start = getProduct(params.get("p")) || PRODUCTS[0];
+  const embedded = !!product;
+  const start = product || getProduct(params.get("p")) || PRODUCTS[0];
   const [p, setP] = useState(start);
   const [color, setColor] = useState(params.get("c") && start.colors.includes(params.get("c")) ? params.get("c") : start.colors[0]);
   const [size, setSize] = useState(start.sizes.length === 1 ? start.sizes[0] : "");
@@ -53,6 +57,7 @@ export default function DesignStudio() {
   const setArt = (v) => setSides((all) => ({ ...all, [side]: { ...all[side], art: typeof v === "function" ? v(all[side].art) : v } }));
   const setText = (v) => setSides((all) => ({ ...all, [side]: { ...all[side], text: typeof v === "function" ? v(all[side].text) : v } }));
   const hasDesign = (sd) => !!(sides[sd].art || sides[sd].text.value.trim());
+  const sideList = SIDES[p.cat] || ["Front"];
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
   const stage = useRef(null);
@@ -64,6 +69,7 @@ export default function DesignStudio() {
   useEffect(() => {
     setColor((c) => (p.colors.includes(c) ? c : p.colors[0]));
     setSize(p.sizes.length === 1 ? p.sizes[0] : "");
+    if (!(SIDES[p.cat] || ["Front"]).includes(side)) setSide("Front");
   }, [p]);
 
   useEffect(() => {
@@ -128,8 +134,13 @@ export default function DesignStudio() {
 
   const addToCart = async () => {
     if (!size) return setErr("Pick a size first.");
-    const used = ["Front", "Back"].filter(hasDesign);
-    if (!used.length) return setErr("Upload a logo or type some text on the front or back first.");
+    const used = sideList.filter(hasDesign);
+    if (!used.length) {
+      if (!embedded) return setErr("Upload a logo or type some text first.");
+      // No design on a product page = order the plain item.
+      add({ id: p.id, name: p.name, cat: p.cat, price: p.price, color, colorLabel: colorName(p, color), size, qty });
+      return router.push("/cart");
+    }
     setBusy(true); setErr("");
     try {
       const saved = {};
@@ -153,14 +164,23 @@ export default function DesignStudio() {
   const fontCss = FONTS.find((x) => x.id === text.font).css.replace("1em", `${text.size * box.height}px`);
 
   return (
-    <div className="studio">
-      <h2>Design yours</h2>
-
-      <div className="chips">
-        {PRODUCTS.map((x) => (
-          <button key={x.id} className={`chip ${x.id === p.id ? "on" : ""}`} onClick={() => setP(x)}>{x.name}</button>
-        ))}
-      </div>
+    <div className={`studio${embedded ? " embedded" : ""}`}>
+      {embedded ? (
+        <div className="studio-head">
+          <h1>{p.name}</h1>
+          <div className="price">{money(p.price)}</div>
+          <p className="note">{p.desc}</p>
+        </div>
+      ) : (
+        <>
+          <h2>Design yours</h2>
+          <div className="chips">
+            {PRODUCTS.map((x) => (
+              <button key={x.id} className={`chip ${x.id === p.id ? "on" : ""}`} onClick={() => setP(x)}>{x.name}</button>
+            ))}
+          </div>
+        </>
+      )}
 
       <div className="stage-wrap">
         <div className="stage" ref={stage} style={{ width: VIEW, height: VIEW }} onPointerMove={onMove} onPointerUp={endDrag} onPointerLeave={endDrag}>
@@ -180,17 +200,18 @@ export default function DesignStudio() {
             {!art && !text.value && <span className="area-hint">Print area</span>}
           </div>
         </div>
-        <div className="seg">
-          {["Front", "Back"].map((pl) => (
+        {sideList.length > 1 && <div className="seg">
+          {sideList.map((pl) => (
             <button key={pl} className={side === pl ? "on" : ""} onClick={() => setSide(pl)}>
               {pl}{hasDesign(pl) ? " ✓" : ""}
             </button>
           ))}
-        </div>
+        </div>}
       </div>
 
       <div className="panel">
-        <p className="tip">Designing the <b>{side.toLowerCase()}</b>. Switch to {side === "Front" ? "Back" : "Front"} above to add a different image there.</p>
+        {embedded && <p className="tip">Add your own logo or text below, or skip it to order it plain.</p>}
+        {sideList.length > 1 && <p className="tip">Designing the <b>{side.toLowerCase()}</b>. Switch to {side === "Front" ? "Back" : "Front"} above to add a different image there.</p>}
         <div className="label">1. {side} logo or artwork</div>
         <label className="upload">
           <input type="file" accept="image/png,image/jpeg,image/webp" onChange={onUpload} />
@@ -248,7 +269,7 @@ export default function DesignStudio() {
 
       <div className="sticky-cta">
         <button className="btn block" disabled={busy} onClick={addToCart}>
-          {busy ? "Saving your design…" : `Add to cart · ${money(p.price * qty)}`}
+          {busy ? "Saving your design…" : !size ? "Pick a size" : `Add to cart · ${money(p.price * qty)}`}
         </button>
       </div>
     </div>
